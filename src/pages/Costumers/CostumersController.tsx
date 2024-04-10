@@ -1,37 +1,37 @@
 import { Button, Stack } from "@mui/material";
 
 import { PageHeader } from "@/components/PageHeader";
+import { Customer } from "@/schema";
 
-import { Costumer } from "../sharedTypes";
-import { CostumersList } from "./components/CostumersList";
-import * as Styled from "./CostumersController.styles";
-import { useGetCostumers } from "./hooks/useGetCostumers";
+import { CustomersList } from "./components/CustomersList";
+import * as Styled from "./CustomersController.styles";
+import { useGetCustomers } from "./hooks/useGetCustomers";
 
-export const CostumersController = () => {
-  const { costumers, isLoading, isError } = useGetCostumers();
+export const CustomersController = () => {
+  const { customers, isLoading, isError } = useGetCustomers();
 
-  const handleClickEditCostumer = (costumer: Costumer) => {
-    alert(`Costumer: ${costumer.name}`);
+  const handleClickEditCustomer = (customer: Customer) => {
+    alert(`Customer: ${customer.name}`);
   };
 
-  const handleClickDeleteCostumer = (costumerId: string) => {
-    alert(`CostumerId: ${costumerId}`);
+  const handleClickDeleteCustomer = (customerId: string) => {
+    alert(`CustomerId: ${customerId}`);
   };
 
   return (
     <Stack sx={(theme) => ({ height: "100%", gap: theme.spacing(4) })}>
       <PageHeader
-        title="Costumers"
+        title="Customers"
         action={<Button variant="contained">Create</Button>}
       />
 
       <Styled.Content>
-        <CostumersList
-          costumers={costumers}
+        <CustomersList
+          customers={customers}
           isLoading={isLoading}
           isError={isError}
-          onClickEditCostumer={handleClickEditCostumer}
-          onClickDeleteCostumer={handleClickDeleteCostumer}
+          onClickEditCustomer={handleClickEditCustomer}
+          onClickDeleteCustomer={handleClickDeleteCustomer}
         />
       </Styled.Content>
     </Stack>

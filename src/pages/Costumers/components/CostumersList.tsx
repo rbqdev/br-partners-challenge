@@ -9,40 +9,40 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import { Costumer } from "@/pages/sharedTypes";
+import { Customer } from "@/schema";
 
-import { CostumersListEmpty } from "./CostumersListEmpty";
-import { CostumersListLoader } from "./CostumersListLoader";
+import { CustomersListEmpty } from "./CustomersListEmpty";
+import { CustomersListLoader } from "./CustomersListLoader";
 
-type CostumerListProps = {
-  costumers?: Costumer[];
+type CustomerListProps = {
+  customers?: Customer[];
   isLoading?: boolean;
   isError?: boolean;
-  onClickEditCostumer: (costumer: Costumer) => void;
-  onClickDeleteCostumer: (costumerId: string) => void;
+  onClickEditCustomer: (customer: Customer) => void;
+  onClickDeleteCustomer: (customerId: string) => void;
 };
 
-export const CostumersList = ({
-  costumers,
+export const CustomersList = ({
+  customers,
   isLoading,
   isError,
-  onClickEditCostumer,
-  onClickDeleteCostumer,
-}: CostumerListProps) => {
+  onClickEditCustomer,
+  onClickDeleteCustomer,
+}: CustomerListProps) => {
   if (isLoading) {
-    return <CostumersListLoader />;
+    return <CustomersListLoader />;
   }
 
-  if (!costumers || costumers.length === 0) {
-    return <CostumersListEmpty isError={isError} />;
+  if (!customers || customers.length === 0) {
+    return <CustomersListEmpty isError={isError} />;
   }
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="Costumers Table">
+      <Table aria-label="customers table">
         <TableHead>
           <TableRow>
-            {Object.keys(costumers[0]).map(
+            {Object.keys(customers[0]).map(
               (key) =>
                 key !== "id" && (
                   <TableCell
@@ -64,26 +64,26 @@ export const CostumersList = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {costumers.map((costumer) => (
+          {customers.map((customer) => (
             <TableRow
-              key={`tr-${costumer.name}`}
+              key={`tr-${customer.name}`}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell>{costumer.type}</TableCell>
-              <TableCell>{costumer.name}</TableCell>
-              <TableCell>{costumer.document}</TableCell>
-              <TableCell>{costumer.email}</TableCell>
-              <TableCell>{costumer.phone}</TableCell>
-              <TableCell sx={{ display: "flex", gap: 2 }}>
+              <TableCell>{customer.type}</TableCell>
+              <TableCell>{customer.name}</TableCell>
+              <TableCell>{customer.document}</TableCell>
+              <TableCell>{customer.email}</TableCell>
+              <TableCell>{customer.phone}</TableCell>
+              <TableCell>
                 <IconButton
-                  aria-label="edit costumer"
-                  onClick={() => onClickEditCostumer(costumer)}
+                  aria-label="edit customer"
+                  onClick={() => onClickEditCustomer(customer)}
                 >
                   <EditIcon />
                 </IconButton>
                 <IconButton
-                  aria-label="delete costumer"
-                  onClick={() => onClickDeleteCostumer(costumer.id)}
+                  aria-label="delete customer"
+                  onClick={() => onClickDeleteCustomer(customer.id)}
                 >
                   <DeleteIcon />
                 </IconButton>

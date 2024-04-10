@@ -1,14 +1,14 @@
 import { http, HttpResponse } from "msw";
 import { v4 as uuid } from "uuid";
 
-import { Costumer, CostumerType } from "@/pages/sharedTypes";
+import { Customer, CustomerType } from "@/schema";
 
 export const handlers = [
-  http.get("/api/costumers", () => {
-    return HttpResponse.json<Costumer[]>([
+  http.get("/api/customers", () => {
+    return HttpResponse.json<Customer[]>([
       {
         id: uuid(),
-        type: CostumerType.PF,
+        type: CustomerType.PF,
         name: "Frozen yoghurt",
         document: 159,
         email: "test@gmail.com",

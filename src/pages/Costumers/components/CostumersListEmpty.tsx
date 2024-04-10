@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
 
-import { FullWrapper } from "./CostumersList.styles";
+import { FullBoxWrapper as StyledFullBoxWrapper } from "./CustomersList.styles";
 
-export const CostumersListEmpty = ({ isError }: { isError?: boolean }) => {
+export const CustomersListEmpty = ({ isError }: { isError?: boolean }) => {
   return (
-    <FullWrapper>
+    <StyledFullBoxWrapper>
       <Typography variant="h2" fontSize={56}>
-        {isError ? "Something went wrong. Try Later" : "No costumers found"}
+        {isError ? "Something went wrong. Try Later" : "No customers found"}
       </Typography>
-    </FullWrapper>
+    </StyledFullBoxWrapper>
   );
 };

@@ -1,11 +1,11 @@
 import { CircularProgress } from "@mui/material";
 
-import { FullWrapper } from "./CostumersList.styles";
+import { FullBoxWrapper as StyledFullBoxWrapper } from "./CustomersList.styles";
 
-export const CostumersListLoader = () => {
+export const CustomersListLoader = () => {
   return (
-    <FullWrapper>
+    <StyledFullBoxWrapper>
       <CircularProgress />
-    </FullWrapper>
+    </StyledFullBoxWrapper>
   );
 };

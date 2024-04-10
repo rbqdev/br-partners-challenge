@@ -1,38 +1,38 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { Costumer } from "@/pages/sharedTypes";
+import { Customer } from "@/schema";
 
-const costumersStorageKey = "costumersStorageKey";
-const costumersQueryKey = "costumersQueryKey";
+const customersStorageKey = "customersStorageKey";
+const customersQueryKey = "customersQueryKey";
 
-export const useGetCostumers = () => {
-  const storagedCostumers = sessionStorage.getItem(costumersStorageKey);
-  const storagedCostumersParsed = JSON.parse(storagedCostumers!) as Costumer[];
+export const useGetCustomers = () => {
+  const storagedCustomers = sessionStorage.getItem(customersStorageKey);
+  const storagedCustomersParsed = JSON.parse(storagedCustomers!) as Customer[];
 
   const {
     isLoading,
     isError,
-    data: costumers,
-  } = useQuery<Costumer[]>({
-    queryKey: [costumersQueryKey],
+    data: customers,
+  } = useQuery<Customer[]>({
+    queryKey: [customersQueryKey],
     queryFn: async () => {
-      const response = await fetch("/api/costumers");
+      const response = await fetch("/api/customers");
       const data = await response.json();
       /** Persist data */
-      sessionStorage.setItem(costumersStorageKey, JSON.stringify(data));
+      sessionStorage.setItem(customersStorageKey, JSON.stringify(data));
       return data;
     },
     /** Get initial storage data */
     initialData: () => {
-      return storagedCostumersParsed;
+      return storagedCustomersParsed;
     },
     /** Disable query if there's storage data */
-    enabled: !storagedCostumersParsed,
+    enabled: !storagedCustomersParsed,
   });
 
   return {
     isLoading,
     isError,
-    costumers,
+    customers,
   };
 };
