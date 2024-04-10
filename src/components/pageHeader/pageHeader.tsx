@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
-import * as Styled from "./pageHeader.styles";
+import * as Styled from "./PageHeader.styles";
 
 type PageHeaderProps = {
   title: string;
