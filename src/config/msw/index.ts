@@ -1,5 +1,2 @@
-import { setupWorker } from "msw/browser";
-
-import { handlers } from "./mocks/handlers";
-
-export const mockServiceWorker = setupWorker(...handlers);
+export * from "./mocks/handlers";
+export * from "./msw";
