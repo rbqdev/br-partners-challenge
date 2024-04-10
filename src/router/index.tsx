@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { CostumersController } from "@/pages/costumers";
+import { CostumersController } from "@/pages/Costumers";
 
 export const router = createBrowserRouter([
   {
