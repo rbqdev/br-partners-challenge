@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Home from "@/pages/home";
+import { CostumersController } from "@/pages/costumers";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <CostumersController />,
   },
 ]);
