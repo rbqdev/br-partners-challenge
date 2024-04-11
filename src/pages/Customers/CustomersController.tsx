@@ -1,39 +1,91 @@
-import { Button, Stack } from "@mui/material";
+import { Button } from "@mui/material";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { PageHeader } from "@/components/PageHeader";
+import { PageLayout } from "@/components/PageLayout";
+import { useCustomMutation } from "@/hooks/useCustomMutation";
+import { useCustomQuery } from "@/hooks/useCustomQuery";
 import { Customer } from "@/schema";
 
 import { CustomersList } from "./components/CustomersList";
-import * as Styled from "./CustomersController.styles";
-import { useGetCustomers } from "./hooks/useGetCustomers";
+import { CustomersListEmpty } from "./components/CustomersListEmpty";
+import { CustomersListLoader } from "./components/CustomersListLoader";
 
 export const CustomersController = () => {
-  const { customers, isLoading, isError } = useGetCustomers();
+  const navigate = useNavigate();
+  const {
+    data: customers,
+    isLoading,
+    isError,
+    refetch: refetchCustomers,
+  } = useCustomQuery<Customer[]>({
+    queryKey: "customersQueryKey",
+    endpoint: "/api/customers",
+  });
 
-  const handleClickEditCustomer = (customer: Customer) => {
-    alert(`Customer: ${customer.name}`);
+  const { mutation: deleteCustomerMutation } = useCustomMutation({
+    onSuccess: () => alert("Customer Deleted"),
+  });
+
+  const handleClickCreateCustomer = () => {
+    navigate("/customer/create");
   };
 
-  const handleClickDeleteCustomer = (customerId: string) => {
-    alert(`CustomerId: ${customerId}`);
-  };
+  const childrenElement = useMemo(() => {
+    const handleClickEditCustomer = (customer: Customer) => {
+      navigate(`/customer/edit/${customer.id}`);
+    };
+
+    const handleClickDeleteCustomer = async (customerId?: string) => {
+      await deleteCustomerMutation.mutateAsync({
+        endpoint: `/api/customers/delete/${customerId}`,
+        method: "DELETE",
+      });
+
+      refetchCustomers();
+    };
+
+    if (isLoading) {
+      return <CustomersListLoader />;
+    }
+
+    const isEmpty = !customers || customers.length === 0;
+
+    if (isError || isEmpty) {
+      return <CustomersListEmpty />;
+    }
+
+    return (
+      <CustomersList
+        customers={customers}
+        onClickEditCustomer={handleClickEditCustomer}
+        onClickDeleteCustomer={handleClickDeleteCustomer}
+      />
+    );
+  }, [
+    customers,
+    deleteCustomerMutation,
+    isError,
+    isLoading,
+    navigate,
+    refetchCustomers,
+  ]);
 
   return (
-    <Stack sx={(theme) => ({ height: "100%", gap: theme.spacing(4) })}>
-      <PageHeader
-        title="Customers"
-        action={<Button variant="contained">Create</Button>}
-      />
-
-      <Styled.Content>
-        <CustomersList
-          customers={customers}
-          isLoading={isLoading}
-          isError={isError}
-          onClickEditCustomer={handleClickEditCustomer}
-          onClickDeleteCustomer={handleClickDeleteCustomer}
+    <PageLayout
+      headerElement={
+        <PageHeader
+          title="Customers"
+          action={
+            <Button variant="contained" onClick={handleClickCreateCustomer}>
+              Create
+            </Button>
+          }
         />
-      </Styled.Content>
-    </Stack>
+      }
+    >
+      {childrenElement}
+    </PageLayout>
   );
 };

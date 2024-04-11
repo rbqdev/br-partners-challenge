@@ -1,6 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,42 +11,27 @@ import TableRow from "@mui/material/TableRow";
 
 import { Customer } from "@/schema";
 
-import { CustomersListEmpty } from "./CustomersListEmpty";
-import { CustomersListLoader } from "./CustomersListLoader";
-
 type CustomerListProps = {
-  customers?: Customer[];
-  isLoading?: boolean;
-  isError?: boolean;
+  customers: Customer[];
   onClickEditCustomer: (customer: Customer) => void;
-  onClickDeleteCustomer: (customerId: string) => void;
+  onClickDeleteCustomer: (customerId?: string) => void;
 };
 
 export const CustomersList = ({
   customers,
-  isLoading,
-  isError,
   onClickEditCustomer,
   onClickDeleteCustomer,
 }: CustomerListProps) => {
-  if (isLoading) {
-    return <CustomersListLoader />;
-  }
-
-  if (!customers || customers.length === 0) {
-    return <CustomersListEmpty isError={isError} />;
-  }
-
   return (
     <TableContainer component={Paper}>
       <Table aria-label="customers table">
         <TableHead>
           <TableRow>
             {Object.keys(customers[0]).map(
-              (key) =>
+              (key, index) =>
                 key !== "id" && (
                   <TableCell
-                    key={`th-${key}`}
+                    key={`th-${key}-${index}`}
                     sx={(theme) => {
                       return {
                         fontWeight: theme.typography.fontWeightBold,
@@ -64,13 +49,18 @@ export const CustomersList = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers.map((customer) => (
+          {customers.map((customer, index) => (
             <TableRow
-              key={`tr-${customer.name}`}
+              key={`tr-${customer.name}-${index}`}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell>{customer.type}</TableCell>
-              <TableCell>{customer.name}</TableCell>
+              <TableCell>
+                <Stack flexDirection="row" gap={1}>
+                  <span>{customer.name}</span>
+                  {customer?.tradeName && <span>({customer?.tradeName})</span>}
+                </Stack>
+              </TableCell>
               <TableCell>{customer.document}</TableCell>
               <TableCell>{customer.email}</TableCell>
               <TableCell>{customer.phone}</TableCell>
