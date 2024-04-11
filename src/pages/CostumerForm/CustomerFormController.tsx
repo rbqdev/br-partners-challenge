@@ -33,9 +33,11 @@ export const CustomerFormController = () => {
 
   const handleSubmitCustomerForm = async (data: Customer) => {
     const endpoint = `/api/customers/${id ? `edit/${id}` : "create"}`;
+    const method = id ? "PUT" : "POST";
     await createCustomerMutation.mutateAsync({
       endpoint,
       body: data,
+      method,
     });
   };
 

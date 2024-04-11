@@ -31,7 +31,7 @@ export const handlers = [
 
     return HttpResponse.json(newCustomer, { status: 201 });
   }),
-  http.post<never, Customer>(
+  http.put<never, Customer>(
     "/api/customers/edit/:id",
     async ({ params, request }) => {
       const { id } = params;
@@ -43,9 +43,12 @@ export const handlers = [
       const customer = await request.json();
       customersMap.set(id, {
         ...customer,
+        id,
       });
 
-      return HttpResponse.json(null, { status: 204 });
+      return HttpResponse.json({
+        status: 204,
+      });
     }
   ),
   http.delete<never, Customer>(
@@ -56,10 +59,12 @@ export const handlers = [
       const deletedCustomer = customersMap.delete(id);
 
       if (!deletedCustomer) {
-        return new HttpResponse(null, { status: 404 });
+        return new HttpResponse("Customer not found", { status: 404 });
       }
 
-      return HttpResponse.json("Customer deleted!", { status: 201 });
+      return HttpResponse.json({
+        status: 204,
+      });
     }
   ),
 ];
