@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { PageLayout } from "@/components/PageLayout";
 import { useCustomMutation } from "@/hooks/useCustomMutation";
 import { useCustomQuery } from "@/hooks/useCustomQuery";
+import { useSnackBar } from "@/hooks/useSnackBar";
 import { Customer } from "@/schema";
 
 import { CustomerDeleteDialog } from "./components/CustomerDeleteDialog";
@@ -14,6 +15,7 @@ import { CustomersListEmpty } from "./components/CustomersListEmpty";
 import { CustomersListLoader } from "./components/CustomersListLoader";
 
 export const CustomersController = () => {
+  const { setSnackBarMessage } = useSnackBar();
   const [deleteCustomerDialogOpen, setDeleteCustomerDialogOpen] =
     useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState<
@@ -31,7 +33,7 @@ export const CustomersController = () => {
   });
 
   const { mutation: deleteCustomerMutation } = useCustomMutation({
-    onSuccess: () => alert("Customer Deleted"),
+    onSuccess: () => setSnackBarMessage("Customer deleted"),
   });
 
   const handleCloseDeleteCustomerDialog = () => {

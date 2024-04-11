@@ -6,12 +6,14 @@ import { PageHeader } from "@/components/PageHeader";
 import { PageLayout } from "@/components/PageLayout";
 import { useCustomMutation } from "@/hooks/useCustomMutation";
 import { useCustomQuery } from "@/hooks/useCustomQuery";
+import { useSnackBar } from "@/hooks/useSnackBar";
 import { Customer, CustomerSchema, CustomerType } from "@/schema";
 
 import { CustomersListLoader } from "../Customers/components/CustomersListLoader";
 import { CustomerForm } from "./components/CustomerForm";
 
 export const CustomerFormController = () => {
+  const { setSnackBarMessage } = useSnackBar();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -27,8 +29,13 @@ export const CustomerFormController = () => {
     enabled: !!id,
   });
 
+  const handleSuccessCreateCustomerMutation = () => {
+    setSnackBarMessage(`Customer ${id ? "edited" : "created"}`);
+    navigate("/");
+  };
+
   const { mutation: createCustomerMutation } = useCustomMutation<Customer>({
-    onSuccess: () => navigate("/"),
+    onSuccess: handleSuccessCreateCustomerMutation,
   });
 
   const handleSubmitCustomerForm = async (data: Customer) => {

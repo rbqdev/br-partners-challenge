@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 
 import * as Styled from "./App.styles";
+import { SnackBarProvider } from "./contexts/SnackBarProvider";
 import { router } from "./router";
 
 const queryClient = new QueryClient();
@@ -12,7 +13,9 @@ export const App = () => {
       <Styled.Card>
         <Styled.CardContent>
           <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            <SnackBarProvider>
+              <RouterProvider router={router} />
+            </SnackBarProvider>
           </QueryClientProvider>
         </Styled.CardContent>
       </Styled.Card>
