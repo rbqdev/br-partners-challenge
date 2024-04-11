@@ -8,7 +8,7 @@ class CustomersMap extends Map<string | readonly string[], Customer> {
     const sessionStorageItems = sessionStorage.getItem(customersStorageKey);
     const sessionStorageItemsParsed = JSON.parse(sessionStorageItems!) || {};
     for (const key in sessionStorageItemsParsed) {
-      this.set(key, sessionStorageItemsParsed[key]);
+      super.set(key, sessionStorageItemsParsed[key]);
     }
   }
 
