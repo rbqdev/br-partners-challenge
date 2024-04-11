@@ -1,25 +1,23 @@
 import { Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
-import { FormState, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { FormState, UseFormRegister } from "react-hook-form";
 
 import { Customer, CustomerType } from "@/schema";
 
 type CustomerFormProps = {
   customer?: Customer;
-  formRegister: UseFormRegister<Customer>;
+  isCompany: boolean;
   formState: FormState<Customer>;
-  watch: UseFormWatch<Customer>;
+  formRegister: UseFormRegister<Customer>;
   onSubmit: () => void;
 };
 
 export const CustomerForm = ({
   customer,
-  formRegister,
+  isCompany,
   formState,
-  watch,
+  formRegister,
   onSubmit,
 }: CustomerFormProps) => {
-  const isCompany = watch("type") === CustomerType.PJ;
-
   return (
     <Stack gap={2} component="form" noValidate onSubmit={onSubmit}>
       <Stack>

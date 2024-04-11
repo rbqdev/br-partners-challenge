@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { PageLayout } from "@/components/PageLayout";
 import { useCustomMutation } from "@/hooks/useCustomMutation";
 import { useCustomQuery } from "@/hooks/useCustomQuery";
-import { Customer, CustomerSchema } from "@/schema";
+import { Customer, CustomerSchema, CustomerType } from "@/schema";
 
 import { CustomersListLoader } from "../Customers/components/CustomersListLoader";
 import { CustomerForm } from "./components/CustomerForm";
@@ -19,9 +19,10 @@ export const CustomerFormController = () => {
     mode: "onChange",
     resolver: zodResolver(CustomerSchema),
   });
+  const isCompany = watch("type") === CustomerType.PJ;
 
   const { data: customer, isLoading } = useCustomQuery<Customer>({
-    queryKey: "customerIdQuery",
+    queryKey: `customerIdQuery-${id}`,
     endpoint: `/api/customers/${id}`,
     enabled: !!id,
   });
@@ -49,7 +50,7 @@ export const CustomerFormController = () => {
         customer={customer}
         formRegister={register}
         formState={formState}
-        watch={watch}
+        isCompany={isCompany}
         onSubmit={handleSubmit(handleSubmitCustomerForm)}
       />
     </PageLayout>
