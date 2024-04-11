@@ -19,9 +19,7 @@ export const useCustomMutation = <T>({ onSuccess }: UseCustomMutationProps) => {
       body?: T;
     }) => {
       const response = await fetch(`${baseUrl}${endpoint}`, {
-        headers: body
-          ? { "Content-type": "application/json; charset=UTF-8" }
-          : undefined,
+        headers: { "Content-type": "application/json; charset=UTF-8" },
         method: method ?? "POST",
         body: body ? JSON.stringify(body) : undefined,
       });
