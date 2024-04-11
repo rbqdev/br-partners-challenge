@@ -21,13 +21,15 @@ export const CustomerFormController = () => {
     mode: "onChange",
     resolver: zodResolver(CustomerSchema),
   });
-  const isCompany = watch("type") === CustomerType.PJ;
 
   const { data: customer, isLoading } = useCustomQuery<Customer>({
     queryKey: `customerIdQuery-${id}`,
     endpoint: `/api/customers/${id}`,
     enabled: !!id,
   });
+
+  const isCompany =
+    watch("type") === CustomerType.PJ || customer?.type === CustomerType.PJ;
 
   const handleSuccessCreateCustomerMutation = () => {
     setSnackBarMessage(`Customer ${id ? "edited" : "created"}`);
