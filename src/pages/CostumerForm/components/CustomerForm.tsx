@@ -1,6 +1,7 @@
 import { Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { FormState, UseFormRegister } from "react-hook-form";
 
+import { TextMaskCustom } from "@/components/TextMaskCustomInput";
 import { Customer, CustomerType } from "@/schema";
 
 type CustomerFormProps = {
@@ -108,13 +109,16 @@ export const CustomerForm = ({
       <Stack>
         <TextField
           required
-          type="number"
           label="Phone"
-          helperText="(xx) xxxxx-xxxx"
+          helperText={!formState?.errors?.phone ? "(xx) xxxxx-xxxx" : ""}
           id="customer-phone"
           defaultValue={customer?.phone}
           error={!!formState?.errors?.phone}
-          {...formRegister("phone", { valueAsNumber: true })}
+          InputProps={{
+            // eslint-disable-next-line
+            inputComponent: TextMaskCustom as any,
+          }}
+          {...formRegister("phone")}
         />
         <Typography
           color="error"
