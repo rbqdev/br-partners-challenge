@@ -24,7 +24,7 @@ export const CustomersController = () => {
   const navigate = useNavigate();
   const {
     data: customers,
-    isLoading,
+    isFetching,
     isError,
     refetch: refetchCustomers,
   } = useCustomQuery<Customer[]>({
@@ -63,7 +63,7 @@ export const CustomersController = () => {
       setDeleteCustomerDialogOpen(true);
     };
 
-    if (isLoading) {
+    if (isFetching) {
       return <CustomersListLoader />;
     }
 
@@ -80,7 +80,7 @@ export const CustomersController = () => {
         onClickDeleteCustomer={handleOpenDeleteCustomerDialog}
       />
     );
-  }, [customers, isError, isLoading, navigate]);
+  }, [customers, isError, isFetching, navigate]);
 
   return (
     <PageLayout
@@ -102,6 +102,7 @@ export const CustomersController = () => {
           open={deleteCustomerDialogOpen}
           onClose={handleCloseDeleteCustomerDialog}
           onSubmit={handleClickDeleteCustomer}
+          isPending={deleteCustomerMutation.isPending}
         />
       </>
     </PageLayout>

@@ -1,13 +1,16 @@
+import { LoadingButton } from "@mui/lab";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 
 type CustomerDeleteDialogProps = {
   open: boolean;
+  isPending: boolean;
   onSubmit: () => void;
   onClose: () => void;
 };
 
 export const CustomerDeleteDialog = ({
   open,
+  isPending,
   onSubmit,
   onClose,
 }: CustomerDeleteDialogProps) => (
@@ -21,10 +24,16 @@ export const CustomerDeleteDialog = ({
       Are you sure you want to delete this item?
     </DialogTitle>
     <DialogActions>
-      <Button onClick={onClose}>Disagree</Button>
-      <Button onClick={onSubmit} autoFocus>
-        Agree
+      <Button disabled={isPending} onClick={onClose}>
+        Disagree
       </Button>
+      <LoadingButton
+        disabled={isPending}
+        loading={isPending}
+        onClick={onSubmit}
+      >
+        Agree
+      </LoadingButton>
     </DialogActions>
   </Dialog>
 );

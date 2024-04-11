@@ -13,7 +13,7 @@ export const useCustomQuery = <T>({
   endpoint,
   enabled,
 }: UseCustomQueryProps) => {
-  const { isLoading, isError, data, refetch } = useQuery<T>({
+  const { isLoading, isError, data, refetch, isFetching } = useQuery<T>({
     queryKey: [queryKey],
     queryFn: async () => {
       const response = await fetch(`${baseUrl}${endpoint}`);
@@ -25,6 +25,7 @@ export const useCustomQuery = <T>({
 
   return {
     isLoading,
+    isFetching,
     isError,
     data,
     refetch,

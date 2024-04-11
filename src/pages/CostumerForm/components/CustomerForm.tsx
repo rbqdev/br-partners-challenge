@@ -1,4 +1,5 @@
-import { Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { FormState, UseFormRegister } from "react-hook-form";
 
 import { TextMaskCustom } from "@/components/TextMaskCustomInput";
@@ -7,6 +8,7 @@ import { Customer, CustomerType } from "@/schema";
 type CustomerFormProps = {
   customer?: Customer;
   isCompany: boolean;
+  isSaving?: boolean;
   formState: FormState<Customer>;
   formRegister: UseFormRegister<Customer>;
   onSubmit: () => void;
@@ -15,6 +17,7 @@ type CustomerFormProps = {
 export const CustomerForm = ({
   customer,
   isCompany,
+  isSaving,
   formState,
   formRegister,
   onSubmit,
@@ -128,15 +131,16 @@ export const CustomerForm = ({
         </Typography>
       </Stack>
 
-      <Button
-        type="submit"
+      <LoadingButton
         fullWidth
-        variant="contained"
+        type="submit"
         color="success"
-        disabled={!formState.isValid}
+        variant="contained"
+        disabled={!formState.isValid || isSaving}
+        loading={isSaving}
       >
         {customer ? "Edit" : "Create"}
-      </Button>
+      </LoadingButton>
     </Stack>
   );
 };

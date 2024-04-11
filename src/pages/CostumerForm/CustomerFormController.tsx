@@ -31,19 +31,19 @@ export const CustomerFormController = () => {
   const isCompany =
     watch("type") === CustomerType.PJ || customer?.type === CustomerType.PJ;
 
-  const handleSuccessCreateCustomerMutation = () => {
+  const handleSuccessSavedCustomerMutation = () => {
     setSnackBarMessage(`Customer ${id ? "edited" : "created"}`);
     navigate("/");
   };
 
-  const { mutation: createCustomerMutation } = useCustomMutation<Customer>({
-    onSuccess: handleSuccessCreateCustomerMutation,
+  const { mutation: saveCustomerMutation } = useCustomMutation<Customer>({
+    onSuccess: handleSuccessSavedCustomerMutation,
   });
 
   const handleSubmitCustomerForm = async (data: Customer) => {
     const endpoint = `/api/customers/${id ? `edit/${id}` : "create"}`;
     const method = id ? "PUT" : "POST";
-    await createCustomerMutation.mutateAsync({
+    await saveCustomerMutation.mutateAsync({
       endpoint,
       body: data,
       method,
@@ -63,6 +63,7 @@ export const CustomerFormController = () => {
         formRegister={register}
         formState={formState}
         isCompany={isCompany}
+        isSaving={saveCustomerMutation.isPending}
         onSubmit={handleSubmit(handleSubmitCustomerForm)}
       />
     </PageLayout>
