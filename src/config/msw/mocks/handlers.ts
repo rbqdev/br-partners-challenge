@@ -31,6 +31,23 @@ export const handlers = [
 
     return HttpResponse.json(newCustomer, { status: 201 });
   }),
+  http.post<never, Customer>(
+    "/api/customers/edit/:id",
+    async ({ params, request }) => {
+      const { id } = params;
+
+      if (!id) {
+        return HttpResponse.json("Customer ID is missing", { status: 400 });
+      }
+
+      const customer = await request.json();
+      customersMap.set(id, {
+        ...customer,
+      });
+
+      return HttpResponse.json(null, { status: 204 });
+    }
+  ),
   http.delete<never, Customer>(
     "/api/customers/delete/:id",
     async ({ params }) => {
