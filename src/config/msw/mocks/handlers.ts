@@ -2,8 +2,8 @@ import { http, HttpResponse } from "msw";
 import { v4 as uuid } from "uuid";
 
 import { Customer } from "@/schema";
+import { simulateApiLatency } from "@/utils/simulateApiLatency";
 
-import { simulateApiLatency } from "../utils/simulateApiLatency";
 import { customersMap } from "./db";
 
 export const handlers = [
