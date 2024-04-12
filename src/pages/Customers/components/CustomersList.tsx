@@ -11,6 +11,8 @@ import TableRow from "@mui/material/TableRow";
 
 import { Customer } from "@/schema";
 
+const columnsKeys = ["Type", "Name", "Document", "Email", "Phone"];
+
 type CustomerListProps = {
   customers: Customer[];
   onClickEditCustomer: (customer: Customer) => void;
@@ -27,22 +29,11 @@ export const CustomersList = ({
       <Table aria-label="customers table">
         <TableHead>
           <TableRow>
-            {Object.keys(customers[0]).map(
-              (key, index) =>
-                key !== "id" && (
-                  <TableCell
-                    key={`th-${key}-${index}`}
-                    sx={(theme) => {
-                      return {
-                        fontWeight: theme.typography.fontWeightBold,
-                        textTransform: "capitalize",
-                      };
-                    }}
-                  >
-                    {key}
-                  </TableCell>
-                )
-            )}
+            {columnsKeys.map((key, index) => (
+              <TableCell key={`th-${key}-${index}`}>
+                <strong>{key}</strong>
+              </TableCell>
+            ))}
             <TableCell>
               <strong>Actions</strong>
             </TableCell>
