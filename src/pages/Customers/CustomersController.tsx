@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { PageHeader } from "@/components/PageHeader";
@@ -8,15 +7,14 @@ import { useCustomQuery } from "@/hooks/useCustomQuery";
 import { Customer } from "@/schema";
 
 import { CustomerDeleteDialog } from "./components/CustomerDeleteDialog";
-import { CustomersList } from "./components/CustomersList";
-import { CustomersListEmpty } from "./components/CustomersListEmpty";
-import { CustomersListLoader } from "./components/CustomersListLoader";
+import { CustomersTable } from "./components/CustomersTable";
 import { useDeleteCustomer } from "./hooks/useDeleteCustomer";
 
 export const CustomersController = () => {
   const navigate = useNavigate();
+
   const {
-    data: customers,
+    data: customers = [],
     isFetching,
     isError,
     refetch: refetchCustomers,
@@ -24,6 +22,9 @@ export const CustomersController = () => {
     queryKey: "customersQueryKey",
     endpoint: "/api/customers",
   });
+
+  const isEmpty = !customers || customers?.length === 0;
+
   const {
     deleteCustomerDialogOpen,
     deleteCustomerMutation,
@@ -37,69 +38,51 @@ export const CustomersController = () => {
     navigate("/customers/create");
   };
 
-  const mainChildrenElement = useMemo(() => {
-    const handleClickEditCustomer = (customer: Customer) => {
-      navigate(`/customers/edit/${customer.id}`);
-    };
+  const handleClickEditCustomer = (customerId?: string) => {
+    navigate(`/customers/edit/${customerId}`);
+  };
 
-    const handleOpenDeleteCustomerDialog = (customerId?: string) => {
-      setSelectedCustomerId(customerId);
-      setDeleteCustomerDialogOpen(true);
-    };
-
-    if (isFetching) {
-      return <CustomersListLoader />;
-    }
-
-    const isEmpty = !customers || customers.length === 0;
-
-    if (isError || isEmpty) {
-      return <CustomersListEmpty />;
-    }
-
-    return (
-      <CustomersList
-        customers={customers}
-        onClickEditCustomer={handleClickEditCustomer}
-        onClickDeleteCustomer={handleOpenDeleteCustomerDialog}
-      />
-    );
-  }, [
-    customers,
-    isError,
-    isFetching,
-    navigate,
-    setDeleteCustomerDialogOpen,
-    setSelectedCustomerId,
-  ]);
+  const handleOpenDeleteCustomerDialog = (customerId?: string) => {
+    setSelectedCustomerId(customerId);
+    setDeleteCustomerDialogOpen(true);
+  };
 
   return (
-    <PageLayout
-      headerElement={
-        <PageHeader
-          title="Customers"
-          action={
-            <Button variant="contained" onClick={handleClickCreateCustomer}>
-              Create
-            </Button>
-          }
+    <>
+      <PageLayout
+        headerElement={
+          <PageHeader
+            title="Customers"
+            action={
+              <Button variant="contained" onClick={handleClickCreateCustomer}>
+                Create
+              </Button>
+            }
+          />
+        }
+        isLoading={isFetching}
+        isError={isError}
+        isEmpty={isEmpty}
+        errorMessage="Something went wrong. Try later"
+        emptyMessage="No customers found"
+      >
+        <CustomersTable
+          customers={customers}
+          onClickEditCustomer={handleClickEditCustomer}
+          onClickDeleteCustomer={handleOpenDeleteCustomerDialog}
         />
-      }
-    >
-      <>
-        {mainChildrenElement}
+      </PageLayout>
 
-        <CustomerDeleteDialog
-          open={deleteCustomerDialogOpen}
-          onClose={handleCloseDeleteCustomerDialog}
-          onSubmit={() =>
-            handleClickDeleteCustomer({
-              callback: refetchCustomers,
-            })
-          }
-          isPending={deleteCustomerMutation.isPending}
-        />
-      </>
-    </PageLayout>
+      <CustomerDeleteDialog
+        open={deleteCustomerDialogOpen}
+        onClose={handleCloseDeleteCustomerDialog}
+        onSubmit={() =>
+          handleClickDeleteCustomer({
+            callback: refetchCustomers,
+          })
+        }
+        isPending={deleteCustomerMutation.isPending}
+      />
+    </>
   );
 };
