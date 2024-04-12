@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { isPhoneNumberValid } from "@/utils/isPhoneNumberValid";
+
 export enum CustomerType {
   PF = "PF",
   PJ = "PJ",
@@ -31,6 +33,13 @@ export const CustomerSchema = z
         path: ["tradeName"],
         code: z.ZodIssueCode.custom,
         message: `Trade name is required`,
+      });
+    }
+    if (!isPhoneNumberValid(val.phone)) {
+      ctx.addIssue({
+        path: ["phone"],
+        code: z.ZodIssueCode.custom,
+        message: `Phone number is invalid`,
       });
     }
   });
