@@ -41,7 +41,7 @@ export const CustomersController = () => {
   };
 
   const handleClickCreateCustomer = () => {
-    navigate("/customer/create");
+    navigate("/customers/create");
   };
 
   const handleClickDeleteCustomer = async () => {
@@ -55,7 +55,7 @@ export const CustomersController = () => {
 
   const mainChildrenElement = useMemo(() => {
     const handleClickEditCustomer = (customer: Customer) => {
-      navigate(`/customer/edit/${customer.id}`);
+      navigate(`/customers/edit/${customer.id}`);
     };
 
     const handleOpenDeleteCustomerDialog = (customerId?: string) => {
