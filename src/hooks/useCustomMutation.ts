@@ -3,12 +3,17 @@ import { useMutation } from "@tanstack/react-query";
 import { baseUrl } from "@/constants";
 
 type UseCustomMutationProps = {
-  onSuccess: () => void;
+  onSuccess?: () => void;
+  onError?: () => void;
 };
 
-export const useCustomMutation = <T>({ onSuccess }: UseCustomMutationProps) => {
+export const useCustomMutation = <T>({
+  onSuccess,
+  onError,
+}: UseCustomMutationProps) => {
   const mutation = useMutation({
     onSuccess,
+    onError,
     mutationFn: async ({
       endpoint,
       body,
