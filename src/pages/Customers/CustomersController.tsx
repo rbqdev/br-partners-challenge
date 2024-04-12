@@ -1,26 +1,19 @@
 import { Button } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { PageHeader } from "@/components/PageHeader";
 import { PageLayout } from "@/components/PageLayout";
-import { useCustomMutation } from "@/hooks/useCustomMutation";
 import { useCustomQuery } from "@/hooks/useCustomQuery";
-import { useSnackBar } from "@/hooks/useSnackBar";
 import { Customer } from "@/schema";
 
 import { CustomerDeleteDialog } from "./components/CustomerDeleteDialog";
 import { CustomersList } from "./components/CustomersList";
 import { CustomersListEmpty } from "./components/CustomersListEmpty";
 import { CustomersListLoader } from "./components/CustomersListLoader";
+import { useDeleteCustomer } from "./hooks/useDeleteCustomer";
 
 export const CustomersController = () => {
-  const { setSnackBarMessage } = useSnackBar();
-  const [deleteCustomerDialogOpen, setDeleteCustomerDialogOpen] =
-    useState(false);
-  const [selectedCustomerId, setSelectedCustomerId] = useState<
-    string | undefined
-  >();
   const navigate = useNavigate();
   const {
     data: customers,
@@ -31,26 +24,17 @@ export const CustomersController = () => {
     queryKey: "customersQueryKey",
     endpoint: "/api/customers",
   });
-
-  const { mutation: deleteCustomerMutation } = useCustomMutation({
-    onSuccess: () => setSnackBarMessage("Customer deleted"),
-  });
-
-  const handleCloseDeleteCustomerDialog = () => {
-    setDeleteCustomerDialogOpen(!deleteCustomerDialogOpen);
-  };
+  const {
+    deleteCustomerDialogOpen,
+    deleteCustomerMutation,
+    setSelectedCustomerId,
+    setDeleteCustomerDialogOpen,
+    handleClickDeleteCustomer,
+    handleCloseDeleteCustomerDialog,
+  } = useDeleteCustomer();
 
   const handleClickCreateCustomer = () => {
     navigate("/customers/create");
-  };
-
-  const handleClickDeleteCustomer = async () => {
-    await deleteCustomerMutation.mutateAsync({
-      endpoint: `/api/customers/delete/${selectedCustomerId}`,
-      method: "DELETE",
-    });
-    await refetchCustomers();
-    handleCloseDeleteCustomerDialog();
   };
 
   const mainChildrenElement = useMemo(() => {
@@ -80,7 +64,14 @@ export const CustomersController = () => {
         onClickDeleteCustomer={handleOpenDeleteCustomerDialog}
       />
     );
-  }, [customers, isError, isFetching, navigate]);
+  }, [
+    customers,
+    isError,
+    isFetching,
+    navigate,
+    setDeleteCustomerDialogOpen,
+    setSelectedCustomerId,
+  ]);
 
   return (
     <PageLayout
@@ -101,7 +92,11 @@ export const CustomersController = () => {
         <CustomerDeleteDialog
           open={deleteCustomerDialogOpen}
           onClose={handleCloseDeleteCustomerDialog}
-          onSubmit={handleClickDeleteCustomer}
+          onSubmit={() =>
+            handleClickDeleteCustomer({
+              callback: refetchCustomers,
+            })
+          }
           isPending={deleteCustomerMutation.isPending}
         />
       </>
