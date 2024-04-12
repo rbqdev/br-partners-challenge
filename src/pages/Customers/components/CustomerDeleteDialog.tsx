@@ -25,14 +25,14 @@ export const CustomerDeleteDialog = ({
     </DialogTitle>
     <DialogActions>
       <Button disabled={isPending} onClick={onClose}>
-        Disagree
+        Cancel
       </Button>
       <LoadingButton
         disabled={isPending}
         loading={isPending}
         onClick={onSubmit}
       >
-        Agree
+        Delete
       </LoadingButton>
     </DialogActions>
   </Dialog>
