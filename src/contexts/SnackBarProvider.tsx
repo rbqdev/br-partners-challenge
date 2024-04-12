@@ -1,35 +1,43 @@
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import React, { createContext, useState } from "react";
 
+type SetSnackBarProps = {
+  message: string;
+  variant?: AlertColor;
+  duration?: number;
+};
+
 type SnackBarContextProps = {
-  setSnackBarMessage: React.Dispatch<React.SetStateAction<string>>;
+  showSnackBar: (payload: SetSnackBarProps) => void;
 };
 
 export const SnackBarContext = createContext({} as SnackBarContextProps);
 
 type SnackBarProviderProps = {
   children: React.ReactElement;
-  severityVariant?: AlertColor;
-  duration?: number;
 };
 
-export const SnackBarProvider = ({
-  children,
-  severityVariant = "success",
-  duration = 2000,
-}: SnackBarProviderProps) => {
-  const [snackBarMessage, setSnackBarMessage] = useState("");
+export const SnackBarProvider = ({ children }: SnackBarProviderProps) => {
+  const [snackBar, setSnackBar] = useState<SetSnackBarProps | null>(null);
+
+  const showSnackBar = ({
+    message,
+    variant = "success",
+    duration = 2000,
+  }: SetSnackBarProps) => {
+    setSnackBar({ message, variant, duration });
+  };
 
   return (
-    <SnackBarContext.Provider value={{ setSnackBarMessage }}>
+    <SnackBarContext.Provider value={{ showSnackBar }}>
       {children}
       <Snackbar
-        open={!!snackBarMessage}
-        onClose={() => setSnackBarMessage("")}
-        autoHideDuration={duration}
+        open={!!snackBar?.message}
+        onClose={() => setSnackBar(null)}
+        autoHideDuration={snackBar?.duration}
       >
-        <Alert severity={severityVariant} variant="filled">
-          {snackBarMessage}
+        <Alert severity={snackBar?.variant} variant="filled">
+          {snackBar?.message}
         </Alert>
       </Snackbar>
     </SnackBarContext.Provider>

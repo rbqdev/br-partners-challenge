@@ -6,15 +6,20 @@ import { Customer } from "@/schema";
 
 export const useSaveCustomer = ({ id }: { id?: string }) => {
   const navigate = useNavigate();
-  const { setSnackBarMessage } = useSnackBar();
+  const { showSnackBar } = useSnackBar();
 
   const handleSuccessSavedCustomerMutation = () => {
-    setSnackBarMessage(`Customer ${id ? "edited" : "created"}`);
+    showSnackBar({ message: `Customer ${id ? "edited" : "created"}` });
     navigate("/");
   };
 
   const { mutation: saveCustomerMutation } = useCustomMutation<Customer>({
     onSuccess: handleSuccessSavedCustomerMutation,
+    onError: () =>
+      showSnackBar({
+        message: "Something went wrong trying to create customer.",
+        variant: "error",
+      }),
   });
 
   const handleSubmitCustomerForm = async (data: Customer) => {

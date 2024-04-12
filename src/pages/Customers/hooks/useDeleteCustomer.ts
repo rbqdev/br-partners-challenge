@@ -4,15 +4,16 @@ import { useCustomMutation } from "@/hooks/useCustomMutation";
 import { useSnackBar } from "@/hooks/useSnackBar";
 
 export const useDeleteCustomer = () => {
-  const { setSnackBarMessage } = useSnackBar();
   const [deleteCustomerDialogOpen, setDeleteCustomerDialogOpen] =
     useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState<
     string | undefined
   >();
 
+  const { showSnackBar } = useSnackBar();
+
   const { mutation: deleteCustomerMutation } = useCustomMutation({
-    onSuccess: () => setSnackBarMessage("Customer deleted"),
+    onSuccess: () => showSnackBar({ message: "Customer deleted" }),
   });
 
   const handleCloseDeleteCustomerDialog = () => {
