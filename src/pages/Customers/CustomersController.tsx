@@ -49,11 +49,11 @@ export const CustomersController = () => {
       endpoint: `/api/customers/delete/${selectedCustomerId}`,
       method: "DELETE",
     });
-    refetchCustomers();
+    await refetchCustomers();
     handleCloseDeleteCustomerDialog();
   };
 
-  const childrenElement = useMemo(() => {
+  const mainChildrenElement = useMemo(() => {
     const handleClickEditCustomer = (customer: Customer) => {
       navigate(`/customer/edit/${customer.id}`);
     };
@@ -96,7 +96,7 @@ export const CustomersController = () => {
       }
     >
       <>
-        {childrenElement}
+        {mainChildrenElement}
 
         <CustomerDeleteDialog
           open={deleteCustomerDialogOpen}
