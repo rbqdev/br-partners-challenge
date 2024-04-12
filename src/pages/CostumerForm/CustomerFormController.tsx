@@ -10,7 +10,7 @@ import { useSnackBar } from "@/hooks/useSnackBar";
 import { Customer, CustomerSchema, CustomerType } from "@/schema";
 
 import { CustomersListLoader } from "../Customers/components/CustomersListLoader";
-import { CustomerForm } from "./components/CustomerForm";
+import { CustomerFormLayout } from "./components/CustomerFormLayout";
 
 export const CustomerFormController = () => {
   const { setSnackBarMessage } = useSnackBar();
@@ -58,7 +58,7 @@ export const CustomerFormController = () => {
 
   return (
     <PageLayout headerElement={<PageHeader title={pageTitle} />}>
-      <CustomerForm
+      <CustomerFormLayout
         customer={customer}
         formRegister={register}
         formState={formState}

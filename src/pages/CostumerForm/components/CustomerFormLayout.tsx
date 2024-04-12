@@ -5,7 +5,7 @@ import { FormState, UseFormRegister } from "react-hook-form";
 import { TextMaskCustom } from "@/components/TextMaskCustomInput";
 import { Customer, CustomerType } from "@/schema";
 
-type CustomerFormProps = {
+type CustomerFormLayoutProps = {
   customer?: Customer;
   isCompany: boolean;
   isSaving?: boolean;
@@ -14,14 +14,14 @@ type CustomerFormProps = {
   onSubmit: () => void;
 };
 
-export const CustomerForm = ({
+export const CustomerFormLayout = ({
   customer,
   isCompany,
   isSaving,
   formState,
   formRegister,
   onSubmit,
-}: CustomerFormProps) => {
+}: CustomerFormLayoutProps) => {
   return (
     <Stack gap={2} component="form" noValidate onSubmit={onSubmit}>
       <Stack>
