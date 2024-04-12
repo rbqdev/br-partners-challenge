@@ -61,10 +61,8 @@ export const CustomersController = () => {
           />
         }
         isLoading={isFetching}
-        isError={isError}
-        isEmpty={isEmpty}
-        errorMessage="Something went wrong. Try later"
-        emptyMessage="No customers found"
+        errorMessage={isError ? "Something went wrong. Try later" : undefined}
+        emptyMessage={isEmpty ? "No customers found" : undefined}
       >
         <CustomersTable
           customers={customers}

@@ -1,15 +1,22 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { useCallback } from "react";
 
+import { fullBoxLoaderId } from "./constants";
 import * as Styled from "./PageLayout.styles";
 
-type PageLayoutProps = {
-  headerElement?: React.ReactElement;
+const FullBoxWrapperMessage = ({ message }: { message?: string }) => (
+  <Styled.FullBoxWrapper>
+    <Typography variant="h2" fontSize={42}>
+      {message}
+    </Typography>
+  </Styled.FullBoxWrapper>
+);
+
+export type PageLayoutProps = {
   children: React.ReactElement;
+  headerElement?: React.ReactElement;
   isLoading?: boolean;
-  isError?: boolean;
   errorMessage?: string;
-  isEmpty?: boolean;
   emptyMessage?: string;
 };
 
@@ -17,42 +24,32 @@ export const PageLayout = ({
   headerElement,
   children,
   isLoading,
-  isError,
   errorMessage,
-  isEmpty,
   emptyMessage,
 }: PageLayoutProps) => {
   const childrenElement = useCallback(() => {
     if (isLoading) {
       return (
-        <Styled.FullBoxWrapper>
-          <CircularProgress />
+        <Styled.FullBoxWrapper aria-describedby={fullBoxLoaderId}>
+          <CircularProgress
+            aria-busy
+            id={fullBoxLoaderId}
+            data-testid={fullBoxLoaderId}
+          />
         </Styled.FullBoxWrapper>
       );
     }
 
-    if (isEmpty) {
-      return (
-        <Styled.FullBoxWrapper>
-          <Typography variant="h2" fontSize={42}>
-            {emptyMessage}
-          </Typography>
-        </Styled.FullBoxWrapper>
-      );
+    if (emptyMessage) {
+      return <FullBoxWrapperMessage message={emptyMessage} />;
     }
 
-    if (isError) {
-      return (
-        <Styled.FullBoxWrapper>
-          <Typography variant="h2" fontSize={42}>
-            {errorMessage}
-          </Typography>
-        </Styled.FullBoxWrapper>
-      );
+    if (errorMessage) {
+      return <FullBoxWrapperMessage message={errorMessage} />;
     }
 
     return <Styled.Content>{children}</Styled.Content>;
-  }, [children, emptyMessage, errorMessage, isEmpty, isError, isLoading]);
+  }, [children, emptyMessage, errorMessage, isLoading]);
 
   return (
     <Stack gap={4} height="100%">

@@ -36,8 +36,7 @@ export const CustomerFormController = () => {
     <PageLayout
       headerElement={<PageHeader title={pageTitle} />}
       isLoading={isFetchingCustomer}
-      isError={isError}
-      errorMessage="No customer found with provided ID"
+      errorMessage={isError ? "No customer found with provided ID" : undefined}
     >
       <CustomerFormLayout
         customer={customer}
