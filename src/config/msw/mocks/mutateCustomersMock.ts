@@ -4,25 +4,9 @@ import { v4 as uuid } from "uuid";
 import { Customer } from "@/schema";
 import { simulateApiLatency } from "@/utils/simulateApiLatency";
 
-import { customersMap } from "./db";
+import { customersMap } from "../db";
 
-export const handlers = [
-  http.get("/api/customers", async () => {
-    await simulateApiLatency();
-    return HttpResponse.json<Customer[]>([...customersMap.values()], {
-      status: 200,
-    });
-  }),
-  http.get("/api/customers/:id", async ({ params }) => {
-    const { id } = params;
-
-    if (!customersMap.has(id)) {
-      return HttpResponse.error();
-    }
-
-    await simulateApiLatency();
-    return HttpResponse.json<Customer>(customersMap.get(id), { status: 200 });
-  }),
+export const mutateCustomersMock = [
   http.post<never, Customer>("/api/customers/create", async ({ request }) => {
     const newCustomer = await request.json();
     const customerGeneratedId = uuid();
