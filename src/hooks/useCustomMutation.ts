@@ -32,6 +32,7 @@ export const useCustomMutation = <T>({
 
       return data;
     },
+    retry: false,
   });
 
   return {

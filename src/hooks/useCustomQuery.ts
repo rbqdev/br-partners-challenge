@@ -21,6 +21,7 @@ export const useCustomQuery = <T>({
       return data;
     },
     enabled,
+    retry: false,
   });
 
   return {
