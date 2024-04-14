@@ -20,6 +20,11 @@ export const useDeleteCustomer = () => {
     setDeleteCustomerDialogOpen(!deleteCustomerDialogOpen);
   };
 
+  const handleOpenDeleteCustomerDialog = (customerId?: string) => {
+    setSelectedCustomerId(customerId);
+    setDeleteCustomerDialogOpen(true);
+  };
+
   const handleClickDeleteCustomer = async ({
     callback,
   }: {
@@ -36,8 +41,7 @@ export const useDeleteCustomer = () => {
   return {
     deleteCustomerDialogOpen,
     deleteCustomerMutation,
-    setSelectedCustomerId,
-    setDeleteCustomerDialogOpen,
+    handleOpenDeleteCustomerDialog,
     handleCloseDeleteCustomerDialog,
     handleClickDeleteCustomer,
   };

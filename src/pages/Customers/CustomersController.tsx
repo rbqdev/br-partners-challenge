@@ -28,8 +28,7 @@ export const CustomersController = () => {
   const {
     deleteCustomerDialogOpen,
     deleteCustomerMutation,
-    setSelectedCustomerId,
-    setDeleteCustomerDialogOpen,
+    handleOpenDeleteCustomerDialog,
     handleClickDeleteCustomer,
     handleCloseDeleteCustomerDialog,
   } = useDeleteCustomer();
@@ -40,11 +39,6 @@ export const CustomersController = () => {
 
   const handleClickEditCustomer = (customerId?: string) => {
     navigate(`/customers/edit/${customerId}`);
-  };
-
-  const handleOpenDeleteCustomerDialog = (customerId?: string) => {
-    setSelectedCustomerId(customerId);
-    setDeleteCustomerDialogOpen(true);
   };
 
   return (
