@@ -12,7 +12,7 @@ export const CustomerSchema = z
     id: z.string().uuid().describe("primaryKey").optional(),
     type: z.enum([CustomerType.PF, CustomerType.PJ]),
     name: z.string().refine((val) => val !== "", {
-      message: "Name is required",
+      message: "Field is required",
     }),
     document: z.number({
       invalid_type_error: "Document is required",
@@ -28,7 +28,8 @@ export const CustomerSchema = z
     tradeName: z.string().optional(),
   })
   .superRefine((val, ctx) => {
-    if (val.type === CustomerType.PJ && !val.tradeName) {
+    const isCompany = val.type === CustomerType.PJ;
+    if (isCompany && !val.tradeName) {
       ctx.addIssue({
         path: ["tradeName"],
         code: z.ZodIssueCode.custom,

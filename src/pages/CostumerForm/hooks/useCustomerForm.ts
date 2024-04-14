@@ -9,7 +9,7 @@ export const useCustomerForm = ({
   customerType?: CustomerType;
 }) => {
   const { register, handleSubmit, formState, watch } = useForm<Customer>({
-    mode: "onChange",
+    mode: "all",
     resolver: zodResolver(CustomerSchema),
   });
 
