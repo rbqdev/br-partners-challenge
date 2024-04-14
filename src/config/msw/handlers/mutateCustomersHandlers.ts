@@ -9,6 +9,11 @@ import { customersMap } from "../db";
 export const mutateCustomersHandlers = [
   http.post<never, Customer>("/api/customers/create", async ({ request }) => {
     const newCustomer = await request.json();
+
+    if (!newCustomer) {
+      return HttpResponse.error();
+    }
+
     const customerGeneratedId = uuid();
 
     customersMap.set(customerGeneratedId, {
