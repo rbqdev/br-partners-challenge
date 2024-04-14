@@ -17,5 +17,6 @@ module.exports = {
     ],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
+    "testing-library/prefer-screen-queries": "off",
   },
 };
