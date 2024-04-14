@@ -3,6 +3,8 @@
   "setupFilesAfterEnv": ["<rootDir>/jest/setup.ts"],
   "moduleNameMapper": {
     "^.+\\.svg$": "jest-svg-transformer",
-    "^.+\\.(css|less|scss)$": "identity-obj-proxy"
-  }
+    "^.+\\.(css|less|scss)$": "identity-obj-proxy",
+    "^@/(.*)$": ["<rootDir>/src/$1"]
+  },
+  "testMatch": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(test).[jt]s?(x)"]
 }
