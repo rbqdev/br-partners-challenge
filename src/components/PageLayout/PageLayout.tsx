@@ -30,9 +30,8 @@ export const PageLayout = ({
   const childrenElement = useCallback(() => {
     if (isLoading) {
       return (
-        <Styled.FullBoxWrapper aria-describedby={fullBoxLoaderId}>
+        <Styled.FullBoxWrapper aria-busy aria-describedby={fullBoxLoaderId}>
           <CircularProgress
-            aria-busy
             id={fullBoxLoaderId}
             data-testid={fullBoxLoaderId}
           />
