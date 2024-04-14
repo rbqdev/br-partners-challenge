@@ -16,9 +16,9 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 Run the follow comands to run tests:
 
 ```bash
-- pnpm run test:unit (react-testing-library)
+- pnpm run test:unit (react-testing-library) (.test files)
 - pnpm run test:coverage
-- pnpm run test:e2e (playwright)
+- pnpm run test:e2e (playwright) (.spec files ./src/e2eTests)
 ```
 
 ## Other commands
