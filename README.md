@@ -16,8 +16,18 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 Run the follow comands to run tests:
 
 ```bash
-- unit: pnpm run test:unit (react-testing-library)
-- e2e: pnpm run test:e2e (playwright)
+- pnpm run test:unit (react-testing-library)
+- pnpm run test:coverage
+- pnpm run test:e2e (playwright)
+```
+
+## Other commands
+
+Run the follow comands to run tests:
+
+```bash
+- pnpm run lint
+- pnpm run lint:fix
 ```
 
 ## Technologies
