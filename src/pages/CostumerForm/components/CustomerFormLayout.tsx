@@ -1,9 +1,11 @@
 import { LoadingButton } from "@mui/lab";
-import { MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { MenuItem, Stack, TextField } from "@mui/material";
 import { FormState, UseFormRegister } from "react-hook-form";
 
-import { TextMaskCustom } from "@/components/TextMaskCustomInput";
+import { TextMaskCustomInput } from "@/components/TextMaskCustomInput";
 import { Customer, CustomerType } from "@/schema";
+
+import { ErrorMessage } from "./ErrorMessage";
 
 type CustomerFormLayoutProps = {
   customer?: Customer;
@@ -41,18 +43,13 @@ export const CustomerFormLayout = ({
       <Stack>
         <TextField
           required
-          label={isCompany ? "Company name" : "Name"}
+          label={isCompany ? "Company Name" : "Name"}
           id="customer-name"
           defaultValue={customer?.name}
           error={!!formState?.errors?.name}
           {...formRegister("name")}
         />
-        <Typography
-          color="error"
-          sx={(theme) => ({ fontSize: theme.typography.fontSize })}
-        >
-          {formState?.errors?.name?.message?.toString()}
-        </Typography>
+        <ErrorMessage message={formState?.errors?.name?.message?.toString()} />
       </Stack>
 
       {isCompany && (
@@ -65,12 +62,9 @@ export const CustomerFormLayout = ({
             error={!!formState?.errors?.tradeName}
             {...formRegister("tradeName")}
           />
-          <Typography
-            color="error"
-            sx={(theme) => ({ fontSize: theme.typography.fontSize })}
-          >
-            {formState?.errors?.tradeName?.message?.toString()}
-          </Typography>
+          <ErrorMessage
+            message={formState?.errors?.tradeName?.message?.toString()}
+          />
         </Stack>
       )}
 
@@ -84,12 +78,9 @@ export const CustomerFormLayout = ({
           error={!!formState?.errors?.document}
           {...formRegister("document", { valueAsNumber: true })}
         />
-        <Typography
-          color="error"
-          sx={(theme) => ({ fontSize: theme.typography.fontSize })}
-        >
-          {formState?.errors?.document?.message?.toString()}
-        </Typography>
+        <ErrorMessage
+          message={formState?.errors?.document?.message?.toString()}
+        />
       </Stack>
 
       <Stack>
@@ -101,12 +92,7 @@ export const CustomerFormLayout = ({
           error={!!formState?.errors?.email}
           {...formRegister("email")}
         />
-        <Typography
-          color="error"
-          sx={(theme) => ({ fontSize: theme.typography.fontSize })}
-        >
-          {formState?.errors?.email?.message?.toString()}
-        </Typography>
+        <ErrorMessage message={formState?.errors?.email?.message?.toString()} />
       </Stack>
 
       <Stack>
@@ -119,16 +105,11 @@ export const CustomerFormLayout = ({
           error={!!formState?.errors?.phone}
           InputProps={{
             // eslint-disable-next-line
-            inputComponent: TextMaskCustom as any,
+            inputComponent: TextMaskCustomInput as any,
           }}
           {...formRegister("phone")}
         />
-        <Typography
-          color="error"
-          sx={(theme) => ({ fontSize: theme.typography.fontSize })}
-        >
-          {formState?.errors?.phone?.message?.toString()}
-        </Typography>
+        <ErrorMessage message={formState?.errors?.phone?.message?.toString()} />
       </Stack>
 
       <LoadingButton
@@ -138,6 +119,7 @@ export const CustomerFormLayout = ({
         variant="contained"
         disabled={!formState.isValid || isSaving}
         loading={isSaving}
+        data-testid="submit-button"
       >
         {customer ? "Edit" : "Create"}
       </LoadingButton>
