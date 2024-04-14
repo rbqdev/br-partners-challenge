@@ -7,24 +7,25 @@ export enum CustomerType {
   PJ = "PJ",
 }
 
+const phoneMaskedLength = 15;
+export const phoneInvalidMessage = "Phone number is invalid";
+const requiredMessage = (field: string) => `${field} is required`;
+
 export const CustomerSchema = z
   .object({
     id: z.string().uuid().describe("primaryKey").optional(),
     type: z.enum([CustomerType.PF, CustomerType.PJ]),
     name: z.string().refine((val) => val !== "", {
-      message: "Field is required",
+      message: requiredMessage("Field"),
     }),
     document: z.number({
-      invalid_type_error: "Document is required",
+      invalid_type_error: requiredMessage("Document"),
     }),
     email: z.string().email("Invalid email address"),
-    /**
-     * As the phone input is masked
-     * Had to add a refine validation
-     */
-    phone: z.string().refine((val) => val !== "", {
-      message: "Phone is required",
-    }),
+    phone: z
+      .string()
+      .min(phoneMaskedLength, { message: phoneInvalidMessage })
+      .max(phoneMaskedLength, { message: phoneInvalidMessage }),
     tradeName: z.string().optional(),
   })
   .superRefine((val, ctx) => {
@@ -33,14 +34,14 @@ export const CustomerSchema = z
       ctx.addIssue({
         path: ["tradeName"],
         code: z.ZodIssueCode.custom,
-        message: `Trade name is required`,
+        message: requiredMessage("Trade name"),
       });
     }
     if (!isPhoneNumberValid(val.phone)) {
       ctx.addIssue({
         path: ["phone"],
         code: z.ZodIssueCode.custom,
-        message: `Phone number is invalid`,
+        message: phoneInvalidMessage,
       });
     }
   });

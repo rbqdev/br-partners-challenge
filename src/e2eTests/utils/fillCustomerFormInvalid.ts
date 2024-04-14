@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 
-import { CustomerType } from "@/schema";
+import { CustomerType, phoneInvalidMessage } from "@/schema";
 
 import {
   defaultCompanyValuesMock,
@@ -65,7 +65,7 @@ export const fillCustomerFormInvalid = async ({
     defaultIndividualValuesMock.phoneMasked
   );
   await phoneMaskedElement.fill("");
-  await expect(page.getByText("Phone is required")).toBeVisible();
+  await expect(page.getByText(phoneInvalidMessage)).toBeVisible();
 
   const disabledButton = page.getByTestId("submit-button");
   await expect(disabledButton).toBeDisabled();
