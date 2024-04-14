@@ -6,20 +6,21 @@ type CustomProps = {
   name: string;
 };
 
-export const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
-  function TextMaskCustom(props, ref) {
-    const { onChange, ...other } = props;
-    return (
-      <IMaskInput
-        {...other}
-        mask="(00) 90000-0000"
-        inputRef={ref}
-        // eslint-disable-next-line
-        onAccept={(value: any) =>
-          onChange({ target: { name: props.name, value } })
-        }
-        overwrite
-      />
-    );
-  }
-);
+export const TextMaskCustomInput = React.forwardRef<
+  HTMLInputElement,
+  CustomProps
+>((props, ref) => {
+  const { onChange, ...other } = props;
+  return (
+    <IMaskInput
+      {...other}
+      mask="(00) 90000-0000"
+      inputRef={ref}
+      // eslint-disable-next-line
+      onAccept={(value: any) =>
+        onChange({ target: { name: props.name, value } })
+      }
+      overwrite
+    />
+  );
+});
