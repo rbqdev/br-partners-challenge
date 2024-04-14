@@ -6,7 +6,7 @@ import { simulateApiLatency } from "@/utils/simulateApiLatency";
 
 import { customersMap } from "../db";
 
-export const mutateCustomersMock = [
+export const mutateCustomersHandlers = [
   http.post<never, Customer>("/api/customers/create", async ({ request }) => {
     const newCustomer = await request.json();
     const customerGeneratedId = uuid();

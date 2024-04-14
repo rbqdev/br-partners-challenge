@@ -5,7 +5,7 @@ import { simulateApiLatency } from "@/utils/simulateApiLatency";
 
 import { customersMap } from "../db";
 
-export const queryCustomersMock = [
+export const queryCustomersHandlers = [
   http.get("/api/customers", async () => {
     await simulateApiLatency();
     return HttpResponse.json<Customer[]>([...customersMap.values()], {
