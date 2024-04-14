@@ -9,6 +9,7 @@ type SetSnackBarProps = {
 
 type SnackBarContextProps = {
   showSnackBar: (payload: SetSnackBarProps) => void;
+  snackBar: SetSnackBarProps | null;
 };
 
 export const SnackBarContext = createContext({} as SnackBarContextProps);
@@ -29,7 +30,7 @@ export const SnackBarProvider = ({ children }: SnackBarProviderProps) => {
   };
 
   return (
-    <SnackBarContext.Provider value={{ showSnackBar }}>
+    <SnackBarContext.Provider value={{ showSnackBar, snackBar }}>
       {children}
       <Snackbar
         open={!!snackBar?.message}
