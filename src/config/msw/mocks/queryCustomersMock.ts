@@ -16,7 +16,9 @@ export const queryCustomersMock = [
     const { id } = params;
 
     if (!customersMap.has(id)) {
-      return HttpResponse.error();
+      return new HttpResponse("Customer not found", {
+        status: 404,
+      });
     }
 
     await simulateApiLatency();
