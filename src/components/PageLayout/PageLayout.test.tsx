@@ -32,4 +32,17 @@ describe("PageLayout", () => {
     expect(screen.getByText(mockErrorMessage)).toBeInTheDocument();
     expect(screen.queryByText("Children")).not.toBeInTheDocument();
   });
+  it("should render error action", () => {
+    const mockErrorMessage = "Something went wrong";
+    const mockErrorAction = <>Error Action</>;
+    render(
+      <PageLayoutWrapper
+        errorMessage={mockErrorMessage}
+        errorAction={mockErrorAction}
+      />
+    );
+    expect(screen.getByText(mockErrorMessage)).toBeInTheDocument();
+    expect(screen.getByText("Error Action")).toBeInTheDocument();
+    expect(screen.queryByText("Children")).not.toBeInTheDocument();
+  });
 });
