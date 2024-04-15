@@ -4,11 +4,18 @@ import { useCallback } from "react";
 import { fullBoxLoaderId } from "./constants";
 import * as Styled from "./PageLayout.styles";
 
-const FullBoxWrapperMessage = ({ message }: { message?: string }) => (
+const FullBoxWrapperMessage = ({
+  message,
+  action,
+}: {
+  message?: string;
+  action?: React.ReactElement;
+}) => (
   <Styled.FullBoxWrapper>
     <Typography variant="h2" fontSize={42}>
       {message}
     </Typography>
+    {action && action}
   </Styled.FullBoxWrapper>
 );
 
@@ -16,16 +23,18 @@ export type PageLayoutProps = {
   children: React.ReactElement;
   headerElement?: React.ReactElement;
   isLoading?: boolean;
-  errorMessage?: string;
   emptyMessage?: string;
+  errorMessage?: string;
+  errorAction?: React.ReactElement;
 };
 
 export const PageLayout = ({
   headerElement,
   children,
   isLoading,
-  errorMessage,
   emptyMessage,
+  errorMessage,
+  errorAction,
 }: PageLayoutProps) => {
   const childrenElement = useCallback(() => {
     if (isLoading) {
@@ -44,11 +53,13 @@ export const PageLayout = ({
     }
 
     if (errorMessage) {
-      return <FullBoxWrapperMessage message={errorMessage} />;
+      return (
+        <FullBoxWrapperMessage message={errorMessage} action={errorAction} />
+      );
     }
 
     return <Styled.Content>{children}</Styled.Content>;
-  }, [children, emptyMessage, errorMessage, isLoading]);
+  }, [children, emptyMessage, errorAction, errorMessage, isLoading]);
 
   return (
     <Stack gap={4} height="100%">

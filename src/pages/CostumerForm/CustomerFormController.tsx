@@ -1,4 +1,5 @@
-import { useParams } from "react-router-dom";
+import { Button } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { PageHeader } from "@/components/PageHeader";
 import { PageLayout } from "@/components/PageLayout";
@@ -10,6 +11,7 @@ import { useCustomerForm } from "./hooks/useCustomerForm";
 import { useSaveCustomer } from "./hooks/useSaveCustomer";
 
 export const CustomerFormController = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const {
@@ -37,6 +39,11 @@ export const CustomerFormController = () => {
       headerElement={<PageHeader title={pageTitle} />}
       isLoading={isFetchingCustomer}
       errorMessage={isError ? "No customer found with provided ID" : undefined}
+      errorAction={
+        <Button variant="contained" onClick={() => navigate("/")}>
+          Go Back
+        </Button>
+      }
     >
       <CustomerFormLayout
         customer={customer}
