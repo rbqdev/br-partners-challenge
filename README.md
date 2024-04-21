@@ -1,4 +1,4 @@
-# BR Partners Frontend Challenge
+# React Form Customer CRUD
 
 ## Getting Started
 
