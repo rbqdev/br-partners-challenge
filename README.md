@@ -44,4 +44,5 @@ This project was built with:
 - Zod
 - React Testing Library
 - Playwright
+- MSW (Mocking Service Worker)
 ```
